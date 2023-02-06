@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import DropboxChooser from "react-dropbox-chooser";
+import { useNavigate } from "react-router-dom";
 function DropBox() {
   const [imgLink, setImgLink] = useState();
   const [imgError, setImgError] = useState();
   const [links, setLinks] = useState([{}]);
-
+  const navigate = useNavigate();
   const myRegex = /(https?:\/\/.*\.(?:png|jpg))/i;
 
   const [users, setUsers] = useState([
@@ -26,6 +27,7 @@ function DropBox() {
     const imageUrl = files[0].link;
     const link = imageUrl.slice(0, -5) + "?raw=1";
     // setImgLink(link);
+    navigate("/");
     if (!link.match(myRegex)) {
       setImgError("Please select images only");
       setImgLink(null);
@@ -47,39 +49,44 @@ function DropBox() {
         console.log(`you selected ${filesLenght} files`);
       }
 
-      files.forEach((element) => {
-        const imgURLS = [element.link.slice(0, -5) + "?raw=1"];
-        const imgID = [element.id.slice(3)];
-        console.log(imgID);
-        // console.log([element.link.slice(0, -5) + "?raw=1"]);
+      // files.forEach((element) => {
+      //   const imgURLS = [element.link.slice(0, -5) + "?raw=1"];
+      //   const imgID = [element.id.slice(3)];
+      //   console.log(imgID);
+      //   // console.log([element.link.slice(0, -5) + "?raw=1"]);
 
-        let id = 0;
-        for (let i = 0; i <= filesLenght; i++) {
-          id += i;
-          setLinks([
-            {
-              url: imgURLS,
-              id: imgID,
-            },
-          ]);
-          //   console.log(id)
-          //   console.log("hey");
-          //   setLinks(myLinks);
-          //   console.log(myLinks);
-        }
-        // console.log(links);
-        // myLinks.forEach((element) => {
-        //   console.log([element]);
-        // });
+      //   let id = 0;
+      //   for (let i = 0; i <= filesLenght; i++) {
+      //     id += i;
+      //     setLinks([
+      //       {
+      //         url: imgURLS,
+      //         id: imgID,
+      //       },
+      //     ]);
+      //     //   console.log(id)
+      //     //   console.log("hey");
+      //     //   setLinks(myLinks);
+      //     //   console.log(myLinks);
+      //   }
+      //   // console.log(links);
+      //   // myLinks.forEach((element) => {
+      //   //   console.log([element]);
+      //   // });
+      // });
+
+      files.forEach((element) => {
+        const me = { url: [element.link] };
+        console.log(files);
       });
     }
   };
 
   return (
-    <div>
+    <div style={{ overFlow: "scroll", background: "blue" }}>
       <DropboxChooser
         appKey={drop.appKey}
-        multiselect={true}
+        multiselect={false}
         success={handleSuccess}
       >
         <button>Select File</button>
